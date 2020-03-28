@@ -1,0 +1,7 @@
+Fecha: Sun Oct 20 23:26:28 COT 2019
+Nombre archivo: 100MiB.txt
+Tamaño archivo: 100MB
+Tiempo de envio: 169.0
+Exito en envio: true
+Numero paquetes enviados: 4.0
+Numero paquetes resividos: 1024.0
