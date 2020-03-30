@@ -58,7 +58,7 @@ public class ClienteUDP
 		     + " por el puerto " + paqueteRecibido.getPort());
 		   String archivo1=new String(paqueteRecibido.getData()); 
 		   String nombre="Archivo"+codigo+".txt";
-		   String ruta = "./data/"+nombre;
+		   String ruta = "./data/ArchivosEnviados/"+nombre;
            File file = new File(ruta);
            FileWriter fw = new FileWriter(file);
            BufferedWriter bw = new BufferedWriter(fw);
