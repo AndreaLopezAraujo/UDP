@@ -1,7 +1,0 @@
-Fecha: Fri Apr 03 13:29:28 COT 2020
-Nombre archivo: 100MiB.txt
-Tamaño archivo: 100MB
-Tiempo de envio: 961.0
-Exito en envio: true
-Numero paquetes enviados: 28.0
-Numero paquetes resividos: 8192.0
