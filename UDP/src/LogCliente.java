@@ -47,7 +47,8 @@ public class LogCliente
 	}
 	public void CrearArchivo() throws FileNotFoundException
 	{
-		String nombre= "data/Logs/LogCliente"+ numeroCliente+".txt";
+		System.out.println("entra a crear archivo");
+		String nombre= "./data/Logs/LogCliente"+ numeroCliente+".txt";
 		File file = new File (nombre);
 		PrintWriter doc = new PrintWriter (file);
 		doc.println("Fecha: "+fecha);

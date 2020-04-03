@@ -7,11 +7,9 @@ public class ClienteUDP
 	
 	public static void main(String[] args) {
 		  try {
-			  int codigo=(int) (Math.random()*100);
+			  int codigo=(int) (Math.random()*1000);
 		   // 1. crear el socket por donde se enviara la peticion y se recibira
 		   // la respuesta..
-			   Scanner reader = new Scanner(System.in);
-			   String numero = "";
 			   String archivo="250MiB.txt";
 			   String tamaño="250MB";
 			   int tamañoP=0;
@@ -20,38 +18,47 @@ public class ClienteUDP
 
 		   // 2. crear datagrama para enviar la info. el datagrama contiene
 		   // toda la info necesaria para que llegue el msj
-		   System.out.println("Numero de archivo(100->1;250->2):");
-		   numero = reader.nextLine();
-		   System.out.println("Numero de clientes:");
-		   numero = numero+","+reader.nextLine()+",";
-		   String[] datos=numero.split(",");
-		   if(datos[0].equals("1"))
-		   {
-			   archivo="100MiB.txt";
-			   tamaño="100MB";
-		   }
-		   l=new LogCliente(codigo, archivo, tamaño);
-		   String msj = numero; // msj a enviar.
+		   System.out.println("Strating Client:");
+		   System.out.println("Requesting message:");
+		   System.out.println("Id del cliente: "+codigo);
+		   String msj = "SendMeAFilePlease,cliente"+codigo; // msj a enviar.
 		   String ip = "127.0.0.1";
 		   int port = 45000;
-		   // 2.1 crear datagrama
-		   long TInicio, TFin, tiempo; 
-			TInicio = System.currentTimeMillis(); 
+		   
+		   // Crear datagrama 1
 		   DatagramPacket paqueteEnvio = new DatagramPacket(msj.getBytes(),
 		     msj.length(), InetAddress.getByName(ip), port);
 		   	tamañoP=paqueteEnvio.getLength();
-		   // 2.2 enviar paquete.
+		   	
+		   // enviar paquete 1.
 		   socket.send(paqueteEnvio);
+		   //recibe paquete 2
+		   byte[] buffer = new byte[1024];
+		   DatagramPacket paqueteServidor = new DatagramPacket(buffer, 1024);
+		   socket.receive(paqueteServidor);
+		   String[] datos=new String(paqueteServidor.getData()).split(",");
+		   if(datos[0].equals("1"))
+			{
+				archivo="100MiB.txt";
+				tamaño="100MB";
+			}
+		   System.out.println("datos en el paq 2: "+ datos[0]+", "+datos[1]);
+			//Log iniatiates recibe Nombrearchivo y Tamaño
+		   l=new LogCliente(codigo, archivo, tamaño);
+		   
 
-		   // 3. recibir respuesta...
-		   // 3.1 crear datagrama de recepcion.
-		   byte[] resp = new byte[1024];
+		   // Recibir archivo...
+		   // Crear datagrama de recepcion.
+		   byte[] resp = new byte[100000000];
 		   DatagramPacket paqueteRecibido = new DatagramPacket(resp,
 		     resp.length);
-		   
+		   long TInicio, TFin, tiempo; 
+			TInicio = System.currentTimeMillis(); 
 		   // 3.2 recibir paquete.
 		   socket.receive(paqueteRecibido);
+		   //System.out.println(paqueteRecibido);
 		   tamañoPl=paqueteRecibido.getLength();
+		   System.out.println("numeroPaquetesResividos"+tamañoPl);
 		   // 4. mostrar info...
 		   System.out.println("Server respondio desde "
 		     + paqueteRecibido.getAddress().getHostAddress()

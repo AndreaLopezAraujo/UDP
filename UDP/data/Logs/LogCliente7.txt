@@ -1,7 +1,7 @@
-Fecha: Sat Mar 28 15:43:59 COT 2020
+Fecha: Fri Apr 03 10:52:36 COT 2020
 Nombre archivo: 100MiB.txt
 Tamaño archivo: 100MB
-Tiempo de envio: 169.0
+Tiempo de envio: 250.0
 Exito en envio: true
-Numero paquetes enviados: 4.0
+Numero paquetes enviados: 5.0
 Numero paquetes resividos: 1024.0
