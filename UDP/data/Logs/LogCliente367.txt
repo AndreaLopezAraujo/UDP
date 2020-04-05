@@ -1,0 +1,7 @@
+Fecha: Sun Apr 05 12:27:13 COT 2020
+Nombre archivo: 250MiB.txt
+Tamaño archivo: 0B
+Tiempo de envio: 5.0
+Exito en envio: true
+Numero paquetes enviados: 28.0
+Numero paquetes resividos: 1024.0

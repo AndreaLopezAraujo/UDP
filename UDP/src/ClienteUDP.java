@@ -49,11 +49,18 @@ public class ClienteUDP
 		   TInicio = System.currentTimeMillis(); 
 		   //Recibir numero de fragmentos
 		   tamano = numFragmentos*1024/1000000 + "B";
-		   
+		   //envia confirmacion de recibido
+		   msj="OK1";
+		   System.out.println("msj: "+msj);
+		   paqueteEnvio = new DatagramPacket(msj.getBytes(), msj.length(), InetAddress.getByName(ip), port);
+		   socket.send(paqueteEnvio); 
 		   // Recibir archivo...
+		   int numeroPaquetesResividos = 0;
 		   for(int i = 0; i < numFragmentos; i++) {
 			   socket.receive(paqueteServidor);
-			   System.out.println(new String(paqueteServidor.getData()));
+			   //System.out.println(new String(paqueteServidor.getData()));
+			   //System.out.println("indice "+ i);
+			   numeroPaquetesResividos++;
 		   }
 		   
 		   //Log iniatiates recibe Nombrearchivo y Tamaño
@@ -71,7 +78,7 @@ public class ClienteUDP
 		   
 		   tamanoPl=paqueteServidor.getLength();
 		   
-		   System.out.println("numeroPaquetesResividos"+tamanoPl);
+		   System.out.println("numeroPaquetesResividos"+numeroPaquetesResividos);
 		   // 4. mostrar info...
 		   
 		   //String archivo1=new String(paqueteServidor.getData()); 
