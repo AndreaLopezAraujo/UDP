@@ -4,12 +4,14 @@ import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.nio.ByteBuffer;
 
 
 public class ServerThread extends Thread {
 
-	private DatagramSocket socketServidor;
+	protected DatagramSocket socketServidor;
+	protected FileInputStream fis;
 	private int numArchivo;
 	String line;
 	String holder;
@@ -18,13 +20,15 @@ public class ServerThread extends Thread {
 	String tamArchivo = "";
 	final String[] PATHS = {"./data/100MiB.txt", "./data/250MiB.txt"};
 
-	public ServerThread(DatagramSocket dSocket, int NumArchivo) {
-		socketServidor = dSocket;
-		this.numArchivo = NumArchivo;
+	public ServerThread(DatagramSocket dSocket, int NumArchivo) throws SocketException {
+		super("test");
+		socketServidor = new DatagramSocket(4445);
+		this.numArchivo = NumArchivo;	
 		line = null;
 		holder = null;
 		clientWord = null;
 		bytNumber = 0;
+		fis = null;
 		//Solo se usa para meter.
 		tamArchivo = numArchivo == 1 ? "100MB" : "250MB";
 	}
@@ -34,6 +38,8 @@ public class ServerThread extends Thread {
 		try {			
 			byte[] bufferEnvio = new byte[1024];
 			byte[] bufferRecept = new byte[1024];
+			
+			
 			DatagramPacket paqueteServidor = new DatagramPacket(bufferRecept, bufferRecept.length);
 			// 2.2 recibir el paquete. operacion bloqueante.
 			socketServidor.receive(paqueteServidor);
@@ -44,7 +50,7 @@ public class ServerThread extends Thread {
 			InetAddress addr = paqueteServidor.getAddress();// la misma del
 			int port = paqueteServidor.getPort();
 			File file = new File(PATHS[numArchivo-1]);
-			FileInputStream fis = new FileInputStream(PATHS[numArchivo-1]);
+			fis = new FileInputStream(PATHS[numArchivo-1]);
 			int count = (int) Math.ceil((double) file.length()/1024.0);
 			byte[] numfragmentos = ByteBuffer.allocate(4).putInt(count).array();
 			DatagramPacket paqueteEnvio = new DatagramPacket(numfragmentos,numfragmentos.length, addr, port);
@@ -67,8 +73,8 @@ public class ServerThread extends Thread {
 				socketServidor.receive(paqueteServidor);
 				System.out.println("Confirmacion: " + new String(paqueteServidor.getData()));	
 			}
-			
 			fis.close();
+			
 
 		} catch (IOException ex) {
 			System.out.println("Server exception: " + ex.getMessage());

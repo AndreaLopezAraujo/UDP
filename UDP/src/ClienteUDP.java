@@ -19,7 +19,6 @@ public class ClienteUDP
 			   int tamanoP=0;
 			   int tamanoPl=0;
 		   DatagramSocket socket = new DatagramSocket();
-
 		   // 2. crear datagrama para enviar la info. el datagrama contiene
 		   // toda la info necesaria para que llegue el msj
 		   System.out.println("Strating Client:");
@@ -27,13 +26,14 @@ public class ClienteUDP
 		   System.out.println("Id del cliente: "+codigo);
 		   String msj = "SendMeAFilePlease,cliente"+codigo; // msj a enviar.
 		   String ip = "127.0.0.1";
-		   int port = 5555;
+		   InetAddress addr = InetAddress.getLocalHost();
+		   int port = 4445;
 		   
 		   byte[] bufferEnvio = new byte[1024];
 		   byte[] bufferRecept = new byte[1024];
 		   
 		   // Crear datagrama 1
-		   DatagramPacket paqueteEnvio = new DatagramPacket(msj.getBytes(), msj.length(), InetAddress.getByName(ip), port);
+		   DatagramPacket paqueteEnvio = new DatagramPacket(msj.getBytes(), msj.length(), addr, port);
 		   socket.send(paqueteEnvio); //Envio el mensaje para indicar que le envie el archivo
 		   tamanoP=paqueteEnvio.getLength();
 		   	
@@ -52,7 +52,7 @@ public class ClienteUDP
 		   //envia confirmacion de recibido
 		   msj="OK1";
 		   System.out.println("msj: "+msj);
-		   paqueteEnvio = new DatagramPacket(msj.getBytes(), msj.length(), InetAddress.getByName(ip), port);
+		   paqueteEnvio = new DatagramPacket(msj.getBytes(), msj.length(), addr, port);
 		   socket.send(paqueteEnvio); 
 		   // Recibir archivo...
 		   int numeroPaquetesResividos = 0;
@@ -73,7 +73,7 @@ public class ClienteUDP
 		   
 		   //Envio Confirmacion TODO falta hash
 		   msj = "OK";
-		   paqueteEnvio = new DatagramPacket(msj.getBytes(), msj.length(), InetAddress.getByName(ip), port);
+		   paqueteEnvio = new DatagramPacket(msj.getBytes(), msj.length(), addr, port);
 		   socket.send(paqueteEnvio);
 		   
 		   tamanoPl=paqueteServidor.getLength();

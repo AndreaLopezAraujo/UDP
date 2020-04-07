@@ -17,7 +17,7 @@ public class ServerUDP {
 		int numClientes = 0;
 		Stack<ServerThread> threads = new Stack<>();
 		
-		try (DatagramSocket socketServidor = new DatagramSocket(5555))
+		try
 		{
 			System.out.println("Numero de archivo(100->1;250->2):");
 			numArchivo = Integer.parseInt(reader.nextLine());
@@ -31,15 +31,8 @@ public class ServerUDP {
 			// 2. recibir mensaje desde el cliente...
 			// 2.1 crear el paquete donde se recibe el mensaje.
 			System.out.println("Server listening on port " + 5555);
-			while (true){
-				ServerThread st=new ServerThread(socketServidor,numArchivo);
-				threads.add(st);
-				if(threads.size() >= numClientes){
-						while(threads.size() > 0) {
-						threads.pop().start();
-					}
-				}
-			}
+	
+			new ServerThread(null,numArchivo).start();
 			//4. cerrar el socket...
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
