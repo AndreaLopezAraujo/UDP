@@ -1,0 +1,8 @@
+Fecha: Tue Apr 07 23:21:10 COT 2020
+Cliente: 58088
+Nombre archivo: 250MiB.txt
+Tamaño archivo: 250MB
+Tiempo de envio: -1.0
+Exito en envio: false
+Numero paquetes enviados: 1.0
+Numero paquetes resividos: 211.0
