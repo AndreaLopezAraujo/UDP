@@ -1,13 +1,18 @@
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
 import java.util.Date;
 
 public class LogCliente 
 {
 	private Date fecha;
 	private String nombreArchivo;
-	private String tamañoArchivo;
+	private String tamanoArchivo;
 	private boolean exitosa;
 	private double tiempoTrasferencia;
 	private double numeroPaquetesResividos;
@@ -18,11 +23,11 @@ public class LogCliente
 	
 	public LogCliente(int NumeroCliente,
 					String nombreArchivo,
-					String tamañoArchivo)
+					String tamanoArchivo)
 	{
 		this.numeroCliente=NumeroCliente;
 		this.nombreArchivo=nombreArchivo;
-		this.tamañoArchivo=tamañoArchivo;
+		this.tamanoArchivo=tamanoArchivo;
 		fecha = new Date();
 	}
 	public void agregarDatos(boolean exitosa,
@@ -47,18 +52,23 @@ public class LogCliente
 	}
 	public void CrearArchivo() throws FileNotFoundException
 	{
-		System.out.println("entra a crear archivo");
-		String nombre= "./data/Logs/LogCliente"+ numeroCliente+".txt";
-		File file = new File (nombre);
-		PrintWriter doc = new PrintWriter (file);
-		doc.println("Fecha: "+fecha);
-		doc.println("Nombre archivo: "+nombreArchivo);
-		doc.println("Tamaño archivo: "+tamañoArchivo);
-		doc.println("Tiempo de envio: "+tiempoTrasferencia);
-		doc.println("Exito en envio: "+exitosa);
-		doc.println("Numero paquetes enviados: "+numeroPaquetesEnviados);
-		doc.println("Numero paquetes resividos: "+numeroPaquetesResividos);
-		doc.close();
+		String filePath= "./data/Logs/LogClientes.txt";
+		String msg = "Fecha: "+fecha + "\n"+
+				"Cliente: "+numeroCliente + "\n"+
+				"Nombre archivo: "+nombreArchivo + "\n" +
+				"Tamaño archivo: "+tamanoArchivo + "\n" + 
+				"Tiempo de envio: "+tiempoTrasferencia + "\n" +
+				"Exito en envio: "+exitosa + "\n" +
+				"Numero paquetes enviados: "+numeroPaquetesEnviados + "\n" +
+				"Numero paquetes resividos: "+numeroPaquetesResividos + "\n"
+				;
+		try {
+		    final Path path = Paths.get(filePath);
+		    Files.write(path, Arrays.asList("New line to append"), StandardCharsets.UTF_8,
+		        Files.exists(path) ? StandardOpenOption.APPEND : StandardOpenOption.CREATE);
+		} catch (final IOException ioe) {
+		    System.out.println("Logging error with client " + numeroCliente);
+		}
 	}
 	
 }

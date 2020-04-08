@@ -1,3 +1,8 @@
 /ClienteUDP.class
 /LogCliente.class
+/ServerThread.class
 /ServerUDP.class
+/UDPClient.class
+/UDPServer.class
+/UC.class
+/Server.class
